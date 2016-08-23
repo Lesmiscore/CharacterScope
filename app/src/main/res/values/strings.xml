@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CharacterScope</string>
+    <string name="typeText">Type the text to show</string>
+    <string name="show">Show</string>
 </resources>
