@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         pager=(ViewPager)findViewById(R.id.pager);
         adapter=new UsefulPagerAdapter2(this);
         adapter.addTab(new FirstFragment(),"");
+        pager.setAdapter(adapter);
     }
 
     public static class FirstFragment extends BaseFragment<MainActivity> {
