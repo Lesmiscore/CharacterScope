@@ -1,17 +1,29 @@
 package com.nao20010128nao.CharacterScope;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public static class CharFragment extends BaseFragment<MainActivity> {
+        TextView charText1;
+        FrameLayout textContainer;
+
         public void setChar(char c){
             Bundle bnd=new Bundle();
             bnd.putChar("char",c);
@@ -110,15 +125,55 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+        public void onResume() {
+            super.onResume();
             char show=getChar();
+            int maxSize=getScreenMinLength(getActivity());
+            charText1=(TextView)findViewById(R.id.charText1);
+            textContainer=(FrameLayout)findViewById(R.id.textContainer);
+            charText1.setText(String.valueOf(show));
+            textContainer.setLayoutParams(new LinearLayout.LayoutParams(maxSize,maxSize));
+            charText1.setTextSize(TypedValue.COMPLEX_UNIT_PX,maxSize);
+        }
+
+        public static int getScreenMinLength(Context c){
+            Point point=getRealSize(c);
+            return Math.min(point.x,point.y);
+        }
+
+        @SuppressLint("NewApi")
+        public static Point getRealSize(Context activity) {
+
+            Display display = ((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            Point point = new Point(0, 0);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                // Android 4.2~
+                display.getRealSize(point);
+                return point;
+
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+                // Android 3.2~
+                try {
+                    Method getRawWidth = Display.class.getMethod("getRawWidth");
+                    Method getRawHeight = Display.class.getMethod("getRawHeight");
+                    int width = (Integer) getRawWidth.invoke(display);
+                    int height = (Integer) getRawHeight.invoke(display);
+                    point.set(width, height);
+                    return point;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return point;
         }
 
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            return super.onCreateView(inflater, container, savedInstanceState);
+            return inflater.inflate(R.layout.char_fragment,container,false);
         }
     }
 }
