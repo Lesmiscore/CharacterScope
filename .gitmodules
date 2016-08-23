@@ -1,0 +1,18 @@
+[submodule "wisecraft-i18n"]
+	path = wisecraft-i18n
+	url = https://github.com/nao20010128nao/Wisecraft-Multilanguage
+[submodule "statusesLayout"]
+	path = statusesLayout
+	url = https://github.com/nao20010128nao/StatusesLayout
+[submodule "MaterialIcons"]
+	path = MaterialIcons
+	url = https://github.com/nao20010128nao/MaterialIconsLight
+[submodule "calligraphy"]
+	path = calligraphy
+	url = https://github.com/nao20010128nao/Calligraphy-Wisecraft
+[submodule "psts"]
+	path = psts
+	url = https://github.com/nao20010128nao/Wisecraft-PagerSlidingTabStrip
+[submodule "colorPicker"]
+	path = colorPicker
+	url = https://github.com/nao20010128nao/Wisecraft-AndroidPhotoshopColorPicker
